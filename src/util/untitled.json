@@ -1,0 +1,295 @@
+cookie：小区code，个人信息（头像、名字）
+
+communityName --小区名字
+
+headImg -- 头像
+
+userName -- 名字
+//首页
+1，小区列表
+4，选择小区
+2，类别列表
+3，list /20
+
+//详情页
+1，详情页内容(产品的size)
+2，加入购物车（post）
+3，立即购买（同购物车）
+
+//分类
+1，分类列表（同首页）
+
+//购物车
+1，默认地址
+
+//支付
+
+//我的
+1,我的订单
+2，优惠券（先不做）
+3，问题反馈
+4，联系客服（页面）
+5,关于（是否去掉）
+
+
+细节
+
+全局定义
+
+code代表唯一标示
+
+//...代码多个数组项
+
+method：post
+
+json格式 {
+	"resultcode": "number", "0---接口正常；其他，对应一个一次msg"
+	"resultmsg": "",
+	"resultdata": {}
+}
+
+小区列表
+
+url： xxx
+
+param: 无
+
+data: resultdata: [
+	{
+		"code": "", //string
+		"name": ""  //string
+	},
+	//...
+]
+
+选择小区
+
+param: {
+	"code": "" //string
+}
+
+类别列表
+
+param: null
+
+resultdata: [
+	{
+		"code": "", //string
+		"name": "",  //string
+		"children": [
+			{
+				"code": "", //string
+				"name": "",  //string
+				"url": "", //string
+			},
+			//...
+		]
+	},
+	//...
+]
+
+
+list
+
+param: {
+	"code": "", //分类code srting
+	"keyword": "", //搜索关键字 string
+	"page": "", //number 从1开始
+}
+
+resultdata: 
+	"list": [
+		{
+			"code": "", //string
+			"url": "", //string
+			"name": "", //string
+			"marketPrice": "", //string 市场价
+			"price": "", //string
+		}
+		//...
+		//<<<page
+	],
+	"page": ""  //number
+
+
+详情页内容
+
+param: {
+	"code": "" //string
+}
+
+resultdata: {
+	"code": "",
+	"img": [
+		"url", "url" //...
+	],
+	"name": "", //string
+	"classify": "", //string
+	"brand": "", //品牌 string
+	"expirationDate": "", //保质期
+	"size": "", //规格
+	"unitPrice": "",
+	"sizeList": [
+		{
+			"code": "",
+			"name": "",
+			"price": "",  //number
+			"number": "", //库存
+		}
+	]
+}
+
+
+
+加入购物车
+
+param: {
+	"code": "",
+	"number": ""
+}
+
+
+//我的
+
+我的订单
+
+param: {
+	"type": ""   //1-未完成（1-4），2-历史订单（5，6）
+}
+
+resultdata: [
+	{
+		"list": [
+			{
+				"url": "", //string
+				"name": "", //string
+				"price": "", //string
+				"number": 
+			}
+			//...
+		],
+		"time": "",
+		"totlePrice": "",
+		"orderCode": "",
+		"remark": "",
+		"payStatus": "",  //1-待支付；2-已支付：3-已接单；4-已送达；5-已完成；6-已评价（5，6）
+		"type": "",
+		"sendAddress": "",
+	}
+	//...
+]
+
+处理订单
+
+param: {
+	"code": "",
+	"type": "",  //1-支付，2-确认，3-删除
+}
+
+resultdata: []
+
+
+问题反馈
+
+param: {
+	"phone": "",
+	"needCommunity": "",
+	"courierSatisfaction": "", //送货员满意度
+	"other": ""
+}
+
+resultdata: []
+
+
+
+//购物车
+
+
+购物车信息
+
+resultdata: {
+	"shoppingCartList": [
+		{
+			"code": "",
+			"url": "",
+			"name": "",
+			"price": "", //number
+			"number": "",
+		},
+		//...
+	],
+	"userName": "",
+	"phone": "",
+	"address": "",
+	"sendTime": "",   //送达时间
+	"sendPrice": "",  //number
+	"type": [],  //1-自提，2-送货上门，
+	"marketAddress": "",
+}
+
+
+去下单
+
+param: {
+	"type": "", // 1 || 2
+	"address": "",
+	"phone": "",
+	"userName": "",
+	"remark": "",
+	"communityList": [
+		{
+			"code": "",
+			"number": "", //number
+		}
+		//...
+	],
+}
+
+//去支付
+
+resultdata: {
+	"list": [
+		{
+			"url": "", //string
+			"name": "", //string
+			"price": "", //string
+			"number": 
+		}
+		//...
+	],
+	"time": "",
+	"totlePrice": "",
+	"orderCode": "",
+	"remark": "",
+    //"payStatus": "",  //1-待支付；2-已支付：3-已接单；4-已送达；5-已完成；6-已评价（5，6）
+	"code": "",
+	"type": "",
+	"sendAddress": "",
+}
+
+
+支付
+
+param: {
+	"code": ""
+}
+
+resultdata: {
+	//支付相关字段
+}
+
+
+userImg上线删除，cookie上线删除，search,小区从新选择，主题色
+
+
+
+
+
+
+
+
+
+
+
+
+

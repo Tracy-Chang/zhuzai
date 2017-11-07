@@ -1,0 +1,93 @@
+<template>
+    <div class="zhuzai-my">
+        <div class="user">
+            <img src="../../assets/logo.png"/>
+            <p>{{userName}}</p>
+        </div>
+        <div class="user-info">
+            <mt-cell title="我的订单" to="/myOrder" is-link>
+                <span slot="icon" class="fa fa-reorder"></span>
+            </mt-cell>
+            <!-- <mt-cell title="历史订单" to="/index" is-link>
+                <span slot="icon" class="fa fa-reorder"></span>
+            </mt-cell> -->
+            <!-- <mt-cell title="我的地址" to="/index" is-link>
+                <span slot="icon" class="fa fa-address-card-o"></span>
+            </mt-cell> -->
+            <!-- <mt-cell title="我的优惠券" to="/index" is-link>
+                <span slot="icon" class="fa fa-ticket"></span>
+            </mt-cell> -->
+            <!-- <mt-cell title="联系客服" to="/index" is-link>
+                <span slot="icon" class="fa fa-phone"></span>
+            </mt-cell>
+            <mt-cell title="问题反馈" to="/index" is-link>
+                <span slot="icon" class="fa fa-question-circle-o"></span>
+            </mt-cell>
+            <mt-cell title="关于我们" to="/index" is-link>
+                <span slot="icon" class="fa fa-handshake-o"></span>
+            </mt-cell> -->
+        </div>
+    </div>
+</template>
+
+<script>
+    import util from '../../util/util';
+
+    export default {
+        data() {
+            return {
+                userImg: '../../assets/logo.png',
+                userName: 'Tracy'
+            }
+        },
+        computed: {
+            userName() {
+                return util.getCookie('userName');
+            },
+            userImg() {
+                return util.getCookie('userImg');
+            }
+        },
+        created() {
+            
+        }
+}
+</script>
+
+<style lang="less">
+    .zhuzai-my{
+        .user{
+            font-size: 15px;
+            height: 215px;
+            text-align: center;
+            background-color: #fff;
+            line-height: normal;
+            img{
+                width: 100px;
+                height: 100px;
+                display: inline-block;
+                margin-top: 30px;
+                border-radius: 50%;
+            }
+            p{
+                height: 20px;
+                font-size: 15px;
+                color: #444;
+            }
+        }
+        .user-info{
+            margin-top: 20px;
+            .fa{
+                font-size: 15px;
+                width: 20px;
+                text-align: center;
+                vertical-align: middle;
+                color: #444;
+            }
+            .mint-cell-text{
+                font-size: 15px;
+                color: #444;
+            }
+        }
+    }
+</style>
