@@ -18,10 +18,11 @@ import util from './util/util';
 import App from './App';
 //mock-data
 //import Mock from './api/mock/index.js';
+//util.setCookie('communityName', 'xxx', 10000);
 
 
 import  { AlertPlugin } from 'vux';
-Vue.use(AlertPlugin)
+Vue.use(AlertPlugin);
 
 
 Vue.use(VueRouter);

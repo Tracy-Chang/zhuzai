@@ -2,8 +2,11 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import * as api from '../api/api';
+import  { AlertPlugin } from 'vux';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+Vue.use(AlertPlugin);
+
 
 // 应用初始状态
 const init_state = {
@@ -39,7 +42,6 @@ const mutations = {
 
 const actions = {
 	getShoppingCartInfo({ commit, state }) {
-
 		api.getShoppingCart()
 		.then(res => {
 			if (res.resultcode == 0) {

@@ -66,7 +66,7 @@ export default {
         .weui-tabbar{
             position: fixed;
             height: 52px;
-            z-index: 5000;
+            z-index: 1000;
         }
         .mint-badge{
             position: absolute;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = '';
+let base = 'http://www.earthcenter.com.cn/test';
 
 //小区list
 export const getCommunityList = params => { return axios.post(`${base}/community/query`, { params: params }).then(res => res.data); };
