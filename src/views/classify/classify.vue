@@ -38,7 +38,7 @@ export default {
         .then(res => {
             if (res.resultcode == 0) {
                 this.firstClassify = res.resultdata;
-                this.secondClassify = res.resultdata[0].children;
+                this.secondClassify = res.resultdata[0].detail;
             } else {
                 this.$vux.alert.show({
                     content: res.resultmsg,
@@ -61,7 +61,7 @@ export default {
             childArr = this.firstClassify.filter((item) => {
                 return item.code == code;
             });
-            this.secondClassify = childArr[0].children;
+            this.secondClassify = childArr[0].detail;
         },
         handleSecondClassify(code) {
             this.$router.push({path: '/classifyCommodityList', query: {code: code}});

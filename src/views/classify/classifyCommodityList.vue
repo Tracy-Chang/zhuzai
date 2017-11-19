@@ -1,7 +1,7 @@
 <!-- search功能 -->
 <template>
     <div class="classify-commondity-list">
-        <div class="title">关键字"<span>{{classifyCode}}</span>"搜索结果</div>
+        <!-- <div class="title">关键字"<span>{{classifyCode}}</span>"搜索结果</div> -->
         <!-- 商品列表 -->
         <commodity-list :classifyCode="classifyCode" :keyword="keyword"></commodity-list>
     </div>

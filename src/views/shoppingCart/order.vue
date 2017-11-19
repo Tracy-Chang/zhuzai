@@ -10,7 +10,7 @@
         <div class="base-info">备注：{{orderData.remark}}</div>
         <div class="base-info">时间：{{orderData.time}}</div>
         <div class="base-info">送货方式：{{orderData.type}}</div>
-        <div class="last-base-info base-info">取货地址：{{orderData.marketAddress}}</div>
+        <div class="last-base-info base-info" v-if="orderData.marketAddress">取货地址：{{orderData.marketAddress}}</div>
         <h3>订单详情</h3>
         <ul>
             <li v-for="item in orderData.list" :key="item.code">
@@ -47,7 +47,7 @@
         methods: {
             toPay() {
             	let para = {
-            		code: this.orderData.code
+            		code: this.orderData.orderCode
             	};
 
             	pay(para)

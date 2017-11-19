@@ -215,6 +215,7 @@ resultdata: {
 			"name": "",
 			"price": "", //number
 			"number": "",
+			"stock": ""
 		},
 		//...
 	],
@@ -280,6 +281,106 @@ resultdata: {
 
 
 userImg上线删除，cookie上线删除，search,小区从新选择，主题色
+
+// new
+
+
+
+问题反馈：
+
+param： {
+	"phone": "", //16个字
+	"issue": ""  //64个字
+}
+
+招商加盟
+
+param：{
+	"companyName": "",  //长度：32个字
+	"address": "", //32个字
+	"name": "", //16个字
+	"phone": "", //16个字
+}
+
+
+代理人：
+
+list
+
+resultdata: [
+	{
+		"orderCode": "",
+		"time": "",
+		"desc": "",
+		"orderStatus": "",  //2-已支付：3-已接单/到货；
+		"totalPrice": "" 
+	}
+	//...
+]
+
+处理订单
+
+param: {
+	"code": "",
+	"type": "", //1-到货， 2-送达
+}
+
+resultdata: []
+
+
+detail 
+
+param: {
+	"code": ""
+}
+
+
+resultdata: {
+	"list": [
+		{
+			"url": "", //string
+			"name": "", //string
+			"price": "", //string
+			"number": ""
+		}
+		//...
+	],
+	"time": "",
+	"totalPrice": "",
+	"remark": "",
+	"orderStatus": "",
+	"type": "",
+	"送货地址": ""
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

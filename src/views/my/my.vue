@@ -1,7 +1,7 @@
 <template>
     <div class="zhuzai-my">
         <div class="user">
-            <img src="../../assets/logo.png"/>
+            <img :src="userImg"/>
             <p>{{userName}}</p>
         </div>
         <div class="user-info">
@@ -36,20 +36,19 @@
     export default {
         data() {
             return {
-                userImg: '../../assets/logo.png',
-                userName: 'Tracy'
+                // userImg: '../../assets/logo.png',
+                // userName: 'Tracy'
             }
         },
         computed: {
             userName() {
-                return util.getCookie('userName');
+                return decodeURIComponent(util.getCookie('userName'));
             },
             userImg() {
-                return util.getCookie('userImg');
+                return util.getCookie('headImg');
             }
         },
         created() {
-            
         }
 }
 </script>

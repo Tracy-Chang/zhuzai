@@ -33,7 +33,15 @@ const mutations = {
     	state.shoppingCartInfo.shoppingCartList = [];
     },
     addShoppingCartStore(state, obj) {
-    	state.shoppingCartInfo.shoppingCartList.push(obj);
+        if (state.shoppingCartInfo.shoppingCartList.every(item => item.code !== obj.code)) {
+            state.shoppingCartInfo.shoppingCartList.push(obj);
+        } else {
+            state.shoppingCartInfo.shoppingCartList.forEach(item => {
+                if (item.code == obj.code) { 
+                    item.number = parseInt(item.number) + parseInt(obj.number);
+                }
+            });
+        }
     },
     palceOrderData(state, obj) {
     	state.orderData = obj;
@@ -50,12 +58,6 @@ const actions = {
 			} else {
 				this.$vux.alert.show({
                     content: res.resultmsg,
-                    onShow () {
-                        console.log('Plugin: I\'m showing')
-                    },
-                    onHide () {
-                        console.log('Plugin: I\'m hiding')
-                    }
                 });
 			}
 		})

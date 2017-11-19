@@ -50,6 +50,10 @@
             }
         },
         computed: {
+            ...mapState([
+                'shoppingCartInfo',
+                'cartNumber'
+            ]),
             repertory() {
                 let repertory = 0;
                 this.options.forEach(item => {
@@ -142,17 +146,13 @@
                 addShoppingCart(para)
                 .then(res => {
                     if (res.resultcode == 0) {
-                        this.changeCartNumber(1);
+                        if (this.shoppingCartInfo.shoppingCartList.every(item => item.code !== para.code)) {
+                            this.changeCartNumber(1);
+                        }
                         this.addShoppingCartStore(res.resultdata);
                         this.$vux.alert.show({
                             maskZIndex: 3000,
                             content: '添加成功',
-                            onShow () {
-                                console.log('Plugin: I\'m showing')
-                            },
-                            onHide () {
-                                console.log('Plugin: I\'m hiding')
-                            }
                         });
                         setTimeout(() => {
                             this.$vux.alert.hide()
@@ -285,6 +285,12 @@
             span{
                 float: right;
                 color: red;
+            }
+        }
+        .mint-swipe-items-wrap{
+            img{
+                height: 180px;
+                margin: 10px 0;
             }
         }
     }

@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <div class="community-name" @click="$router.push('/community')">{{currentCommunity}}</div>
         <div>
             <router-view></router-view>
         </div>
@@ -23,6 +24,7 @@
 <script>
 import { Tabbar, TabbarItem } from 'vux';
 import { mapState, mapMutations, mapActions } from 'vuex';
+import util from './../util/util';
 
 export default {
     components: {
@@ -38,6 +40,9 @@ export default {
         ...mapState([
             'cartNumber'
         ]),
+        currentCommunity() {
+            return decodeURIComponent(util.getCookie('zhuzaiCommunityName'));
+        }
     },
     created() {
         this.getShoppingCartInfo();
@@ -56,7 +61,16 @@ export default {
 </script>
 
 <style lang="less">
+    @import '../style/vars';
     .home {
+        .community-name{
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 14px;
+            background-color: @globalColor;
+            color: #fff
+        }
         .logo{
             width: 200px;
         }

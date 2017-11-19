@@ -1,7 +1,7 @@
 <template>
 	<ul class="commodity-list"
         v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
+        infinite-scroll-disabled="updateLoadMore"
         infinite-scroll-distance="50">
         <li v-for="item in commodityList" @click="toDetail(item.code)">
             <img :src="item.url">
@@ -11,7 +11,8 @@
                 <p>{{item.price}}元</p>
             </div>
         </li>
-        <mt-spinner type="triple-bounce">加载中</mt-spinner>
+        <mt-spinner type="triple-bounce" v-if="!updateLoadMore">加载中</mt-spinner>
+        <div class="no-more" v-else>没有更多商品了~</div>
     </ul>
 </template>
 
@@ -26,25 +27,32 @@
                 commodityList: [],
                 page: 1,
                 loading: false,
+                updateLoadMore: false
             }
         },
         created() {
-        	this.loadList();
+
         },
         methods: {
             loadList() {
+                if (this.loading) {
+                    return
+                }
                 let para = {
                     code: this.classifyCode,
                     keyword: this.keyword,
                     page: this.page
                 };
-
+                
                 this.loading = true;
                 getCommodityList(para)
                 .then(res => {
                     if (res.resultcode == 0) {
                         this.commodityList = res.resultdata.list;
-                        this.page = res.resultdata.page;
+                        this.page = res.resultdata.pageNumber;
+                        if (res.resultdata.lastPage) {
+                            this.updateLoadMore = true;
+                        }
                         this.loading = false;
                     } else {
                         this.$vux.alert.show({
@@ -65,17 +73,24 @@
                 });
             },
             loadMore() {
+                if (this.loading) {
+                    return
+                }
                 let para = {
                     code: this.classifyCode,
                     page: ++this.page,
                     keyword: this.keyword
                 };
+
                 this.loading = true;
                 getCommodityList(para)
                 .then(res => {
                     if (res.resultcode == 0) {
                         this.commodityList = this.commodityList.concat(res.resultdata.list);
-                        this.page = res.resultdata.page;
+                        this.page = res.resultdata.pageNumber;
+                        if (res.resultdata.lastPage) {
+                            this.updateLoadMore = true;
+                        }
                         this.loading = false;
                     } else {
                         this.$vux.alert.show({
@@ -101,14 +116,23 @@
         },
         watch: {
         	classifyCode: function(a, b) {
-        		this.loadList();
+                this.page = 1;
+                this.updateLoadMore = false;
+                this.loadList();
         	},
         	keyword: function(a, b) {
+                this.page = 1;
+                this.updateLoadMore = false;
         		this.loadList();
         	}
         },
         computed:{
-
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                this.loadList();
+                
+            })
         }
     }
 </script>
@@ -149,7 +173,11 @@
             }
 
         }
-
+        .no-more{
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+        }
     }
 </style>
 

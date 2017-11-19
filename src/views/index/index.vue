@@ -11,8 +11,7 @@
         </mt-search> -->
         <search
             v-model="searchkeyword"
-            position="absolute"
-            @on-blur="onSubmit"
+            position="static"
             @on-submit="onSubmit"
             ref="search"></search>
         <!-- 分类 -->

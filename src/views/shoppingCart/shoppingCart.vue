@@ -8,13 +8,14 @@
         <mt-field label="备注:" placeholder="请输入备注" v-model="remark"></mt-field>
         <div class="sendTime">送达时间：{{shoppingCartInfo.sendTime}}</div>
         <ul>
-            <li v-for="item in shoppingCartInfo.shoppingCartList" :key="item.code">
+            <li v-for="item in test" :key="item.code">
                 <img :src="item.url" @click="toDetail(item.code)">
                 <div class="info" @click="toDetail(item.code)">
                     <p>{{item.name}}</p>
+                    <p>剩余{{item.stock}}件</p>
                     <p>{{item.price}}元</p>
                 </div>
-                <x-number v-model="item.number" :min="0" width="30px" button-style="round"></x-number>
+                <x-number v-model="item.number" :min="0" :max="item.stock" width="30px" button-style="round" @on-change="changeNumber"></x-number>
             </li>
         </ul>
         <selector 
@@ -25,8 +26,9 @@
             placeholder="请选择送货方式">    
         </selector>
 
-        <div class="sendPrice" v-if="!shoppingCartInfo.marketAddress">运费：<span>{{shoppingCartInfo.sendPrice}}元</span></div>
-        <div class="market-address" v-else>自提地址：{{shoppingCartInfo.marketAddress}}</div>
+        <div class="market-address" v-if="typeValue == 1">自提地址：{{shoppingCartInfo.marketAddress}}</div>
+        <div class="sendPrice" v-if="typeValue == 2">运费：<span>{{sendPrice}}元</span></div>
+        <div class="sendPrice" v-if="typeValue == 1">运费：<span>{{sendPrice}}元</span></div>
 
         <div class="bottom">
             <span>￥{{totalPrice}}元</span>
@@ -59,15 +61,20 @@
             ...mapState([
                 'shoppingCartInfo'
             ]),
+            sendPrice() {
+                if (this.typeValue == 2) {
+                    return this.shoppingCartInfo.sendPrice;
+                } else {
+                    return 0;
+                }
+            },
             totalPrice() {
                 let price = 0;
                 if (this.shoppingCartInfo.shoppingCartList && this.shoppingCartInfo.shoppingCartList.length > 0) {
                     this.shoppingCartInfo.shoppingCartList.forEach(item => {
                         price = Math.round((price + item.price * item.number)*100)/100;
                     });
-                    if (this.shoppingCartInfo.sendPrice) {
-                        price = Math.round((price + this.shoppingCartInfo.sendPrice)*100)/100;
-                    }
+                    price = Math.round((price + this.sendPrice)*100)/100;
                 }
                 return price;
             },
@@ -100,10 +107,13 @@
                         }
                     ]
                 }
+            },
+            test() {
+                return this.shoppingCartInfo.shoppingCartList
             }
         },
         created() {
-            console.log(this.shoppingCartInfo);
+
         },
         methods: {
             ...mapMutations([
@@ -179,9 +189,10 @@
                     remark: this.remark,
                     address: this.shoppingCartInfo.address,
                     phone: this.shoppingCartInfo.phone,
-                    name: this.shoppingCartInfo.userName,
-                    communityList: this.shoppingCartInfo.shoppingCartList,
+                    userName: this.shoppingCartInfo.userName,
                 };
+                para.communityList = JSON.stringify(this.shoppingCartInfo.shoppingCartList);
+                
                 this.loading = true;
                 placeOrder(para)
                 .then(res => {
@@ -205,6 +216,10 @@
                     console.log(err);
                 });
             },
+            changeNumber(code, v) {
+                console.log(this)
+                this
+            }
         },
         mounted: function () {
             this.$nextTick(function () {
@@ -258,7 +273,7 @@
             .info{
                 flex: 1;
                 font-size: 15px;
-                p:nth-child(2){
+                p:nth-child(3){
                     color: #0bad0b;
                     margin-top: 5px;
                     font-size: 14px;

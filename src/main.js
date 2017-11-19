@@ -18,7 +18,7 @@ import util from './util/util';
 import App from './App';
 //mock-data
 //import Mock from './api/mock/index.js';
-//util.setCookie('communityName', 'xxx', 10000);
+//util.setCookie('zhuzaiCommunityName', 'xxx', 10000);
 
 
 import  { AlertPlugin } from 'vux';
@@ -35,9 +35,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	//util.setCookie('communityName', 'xxx', 10000);
-	let community = util.getCookie('communityName');
-
+	//util.setCookie('zhuzaiCommunityName', 'xxx', 10000);
+	let community = util.getCookie('zhuzaiCommunityName');
 	if (to.path == '/') {
 		next({
 			path: '/index'
