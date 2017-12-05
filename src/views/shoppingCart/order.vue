@@ -33,7 +33,7 @@
     export default {
         data() {
             return {
-                
+                wxObj: {}
             }
         },
         computed: {
@@ -49,11 +49,10 @@
             	let para = {
             		code: this.orderData.orderCode
             	};
-
             	pay(para)
             	.then(res => {
             		if (res.resultcode == 0) {
-                        let wxObj = res.resultdata;
+                        this.wxObj = res.resultdata;
 						if (typeof WeixinJSBridge == "undefined"){
 						    if( document.addEventListener ){
 						        document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
@@ -62,7 +61,7 @@
 						        document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
 						    }
 						}else{
-						    this.onBridgeReady(wxObj);
+						    this.onBridgeReady(this.wxObj);
 						}
 
                     } else {
@@ -77,7 +76,7 @@
             },
             onBridgeReady() {
             	WeixinJSBridge.invoke(
-			        'getBrandWCPayRequest', wxObj,
+			        'getBrandWCPayRequest', this.wxObj,
 			       	function(res){     
 						if(res.err_msg == "get_brand_wcpay_request:ok" ) {
 							this.$vux.alert.show({

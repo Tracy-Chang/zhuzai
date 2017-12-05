@@ -203,6 +203,52 @@ Mock.mock(/\/order\/manage/,
 	}
 );
 
+
+
+//商户商品列表
+Mock.mock(/\/agent\/queryProduct/,
+	{
+		"resultcode":0, //1成功 0失败
+		"resultdata": {
+			"list|15": [
+				{
+					"code|+1": 1, //string
+					"url": img, //string
+					"name|1-3": "商品", //string
+					"marketPrice|+1": 3, //string 市场价
+					"price|+1": 2, //string
+					"status|1-2": "上架"
+				}
+			],
+			"page": 1
+		},
+		"resultmsg":"选择成功"
+	}
+);
+
+
+
+//商户商品列表
+Mock.mock(/\/agent\/queryProduct/,
+	{
+		"resultcode":0, //1成功 0失败
+		"resultdata": {
+			"list|15": [
+				{
+					"code|+1": 1, //string
+					"url": img, //string
+					"name|1-3": "商品", //string
+					"marketPrice|+1": 3, //string 市场价
+					"price|+1": 2, //string
+					"status|1-2": "上架"
+				}
+			],
+			"page": 1
+		},
+		"resultmsg":"选择成功"
+	}
+);
+
 export default Mock;
 
 

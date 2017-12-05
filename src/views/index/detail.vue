@@ -7,14 +7,16 @@
         </mt-swipe>
         <div class="name">{{communityDetail.name}}</div>
         <div class="description">
-            <div>价格：<span class="unitPrice">￥{{communityDetail.unitPrice}}</span></div>
-            <div>品牌：<span>{{communityDetail.brand}}</span></div>
-            <div>规格：<span>{{communityDetail.size}}</span></div>
-            <div>分类：<span>{{communityDetail.classify}}</span></div>
-            <div>保质期：<span>{{communityDetail.expirationDate}}</span></div>
+            <div v-if="communityDetail.unitPrice">价格：<span class="unitPrice">￥{{communityDetail.unitPrice}}</span></div>
+            <div v-if="communityDetail.brand">品牌：<span>{{communityDetail.brand}}</span></div>
+            <div v-if="communityDetail.size">规格：<span>{{communityDetail.size}}</span></div>
+            <div v-if="communityDetail.classify">分类：<span>{{communityDetail.classify}}</span></div>
+            <div v-if="communityDetail.expirationDate">保质期：<span>{{communityDetail.expirationDate}}</span></div>
+            <div v-if="communityDetail.aboutTime">预计送达时间：<span>{{communityDetail.aboutTime}}</span></div>
         </div>
         <div class="addShoppingCart" @click="popupVisible = true">加入购物车</div>
         <mt-popup v-model="popupVisible" position="bottom" class="mint-popup" :modal="false">
+            <div class="cancle" @click="cancle"></div>
             <div class="popup-community-type">
                 <mt-radio
                     title="品种"
@@ -87,6 +89,7 @@
                         item.label = item.name;
                     });
                     this.options = this.communityDetail.sizeList;
+                    this.communityCode = this.options[0].code;
                 } else {
                     this.$vux.alert.show({
                         content: res.resultmsg,
@@ -108,6 +111,9 @@
                 'changeCartNumber',
                 'addShoppingCartStore',
             ]),
+            cancle() {
+                this.popupVisible = false;
+            },
             addShoppingCart() {
                 if (this.addShoppingCartLoading) {
                     return
@@ -221,10 +227,9 @@
             font-weight: 500;
         }
         .description{
-            margin: 10px 20px;
+            margin: 10px 20px 110px;
             div{
                 font-size: 15px;
-                width: 150px;
                 min-height: 30px;
                 line-height: 30px;
                 .unitPrice{
@@ -255,6 +260,10 @@
                 bottom: 0;
                 width: 100%;
                 background-color: #fff;
+            }
+            .cancle{
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0);
             }
             .type{
                 margin: 10px 20px;

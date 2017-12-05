@@ -41,6 +41,13 @@ export const getMyOrder = params => { return axios.post(`${base}/order/query`, q
 export const handlerOrder = params => { return axios.post(`${base}/order/manage`, qs.stringify(params)).then(res => res.data); };
 
 
+//管理
+//商品列表
+export const getProductList = params => { return axios.post(`${base}/agent/queryProduct`, qs.stringify(params)).then(res => res.data); };
+//修改商品
+export const editProduct = params => { return axios.post(`${base}/agent/editProduct`, qs.stringify(params)).then(res => res.data); };
+
+
 
 
 

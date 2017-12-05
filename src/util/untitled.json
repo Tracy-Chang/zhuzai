@@ -1,38 +1,29 @@
-cookie：小区code，个人信息（头像、名字）
+0.cookie：小区名:communityName，头像:headImg、名字:userName 
+1.session：uId comCode
 
-communityName --小区名字
-
-headImg -- 头像
-
-userName -- 名字
 //首页
 1，小区列表
 4，选择小区
 2，类别列表
-3，list /20
+3，产品list
 
 //详情页
-1，详情页内容(产品的size)
-2，加入购物车（post）
-3，立即购买（同购物车）
-
-//分类
-1，分类列表（同首页）
+1，详情页内容
+2，加入购物车
+0，立即购买（同购物车）
 
 //购物车
-1，默认地址
+1，购物车信息
+2，去下单
 
 //支付
+1.去支付
 
 //我的
-1,我的订单
-2，优惠券（先不做）
-3，问题反馈
-4，联系客服（页面）
-5,关于（是否去掉）
+1，我的订单
+2，处理订单
 
 
-细节
 
 全局定义
 
@@ -43,14 +34,15 @@ code代表唯一标示
 method：post
 
 json格式 {
-	"resultcode": "number", "0---接口正常；其他，对应一个一次msg"
+	"resultcode": "number", "0-接口正常；其他，对应一个一次msg"
 	"resultmsg": "",
 	"resultdata": {}
 }
 
-小区列表
 
-url： xxx
+1.小区列表
+
+url： http://www.earthcenter.com.cm/zhuzai/community/query
 
 param: 无
 
@@ -62,13 +54,17 @@ data: resultdata: [
 	//...
 ]
 
-选择小区
+2.选择小区
+
+url： http://www.earthcenter.com.cm/zhuzai/community/choose
 
 param: {
 	"code": "" //string
 }
 
-类别列表
+3.类别列表
+
+url： http://www.earthcenter.com.cm/zhuzai/reservetype/query
 
 param: null
 
@@ -76,7 +72,7 @@ resultdata: [
 	{
 		"code": "", //string
 		"name": "",  //string
-		"children": [
+		"detail": [
 			{
 				"code": "", //string
 				"name": "",  //string
@@ -89,7 +85,9 @@ resultdata: [
 ]
 
 
-list
+4.list
+
+url： http://www.earthcenter.com.cm/zhuzai/product/queryList
 
 param: {
 	"code": "", //分类code srting
@@ -112,7 +110,9 @@ resultdata:
 	"page": ""  //number
 
 
-详情页内容
+5.详情页内容
+
+url： http://www.earthcenter.com.cm/zhuzai/product/queryDetail
 
 param: {
 	"code": "" //string
@@ -128,7 +128,8 @@ resultdata: {
 	"brand": "", //品牌 string
 	"expirationDate": "", //保质期
 	"size": "", //规格
-	"unitPrice": "",
+	“unitPrice”: "", //单价
+	“aboutTime”: "", //预计送达时间 新增
 	"sizeList": [
 		{
 			"code": "",
@@ -141,7 +142,9 @@ resultdata: {
 
 
 
-加入购物车
+6.加入购物车
+
+url： http://www.earthcenter.com.cm/zhuzai/shopping/add
 
 param: {
 	"code": "",
@@ -149,9 +152,32 @@ param: {
 }
 
 
+resultdata: {
+	"shoppingCartList": [
+		{
+			"code": "",
+			"url": "",
+			"name": "",
+			"price": "", //number
+			"number": "",
+		},
+		//...
+	],
+	"name": "",
+	"phone": "",
+	"address": "",
+	"sendTime": "",   //送达时间
+	"sendPrice": "",  //number
+	"type": [],  //1-自提，2-送货上门，
+	"marketAddress": "",
+}
+
+
 //我的
 
-我的订单
+7.我的订单
+
+url： http://www.earthcenter.com.cm/zhuzai/order/query
 
 param: {
 	"type": ""   //1-未完成（1-4），2-历史订单（5，6）
@@ -179,7 +205,9 @@ resultdata: [
 	//...
 ]
 
-处理订单
+8.处理订单
+
+url： http://www.earthcenter.com.cm/zhuzai/order/manage
 
 param: {
 	"code": "",
@@ -189,23 +217,12 @@ param: {
 resultdata: []
 
 
-问题反馈
-
-param: {
-	"phone": "",
-	"needCommunity": "",
-	"courierSatisfaction": "", //送货员满意度
-	"other": ""
-}
-
-resultdata: []
-
-
 
 //购物车
 
+9.购物车信息
 
-购物车信息
+url： http://www.earthcenter.com.cm/zhuzai/shopping/query
 
 resultdata: {
 	"shoppingCartList": [
@@ -215,7 +232,7 @@ resultdata: {
 			"name": "",
 			"price": "", //number
 			"number": "",
-			"stock": ""
+			"stock":""
 		},
 		//...
 	],
@@ -229,24 +246,24 @@ resultdata: {
 }
 
 
-去下单
+10.去下单
+
+url： http://www.earthcenter.com.cm/zhuzai/order/add
 
 param: {
 	"type": "", // 1 || 2
 	"address": "",
-	"phone": "",
-	"userName": "",
-	"remark": "",
+	“phone”: "",
+	“name”: "",
 	"communityList": [
 		{
 			"code": "",
-			"number": "", //number
+			"number": "" //number
 		}
 		//...
 	],
+	"remark": ""
 }
-
-//去支付
 
 resultdata: {
 	"list": [
@@ -262,38 +279,41 @@ resultdata: {
 	"totlePrice": "",
 	"orderCode": "",
 	"remark": "",
-    //"payStatus": "",  //1-待支付；2-已支付：3-已接单；4-已送达；5-已完成；6-已评价（5，6）
-	"code": "",
+    	//"payStatus": "",  //1-待支付；2-已支付：3-已接单；4-已送达；5-已完成；6-已评价（5，6）
 	"type": "",
 	"sendAddress": "",
 }
 
 
-支付
+
+11.支付
+
+url： http://www.earthcenter.com.cm/zhuzai/pay/payOrder
 
 param: {
-	"code": ""
+ "code": ""
 }
 
 resultdata: {
-	//支付相关字段
+ //支付相关字段
 }
 
 
-userImg上线删除，cookie上线删除，search,小区从新选择，主题色
 
-// new
+12.问题反馈：
 
-
-
-问题反馈：
+url： http://www.earthcenter.com.cm/zhuzai/help/feedback
 
 param： {
 	"phone": "", //16个字
 	"issue": ""  //64个字
 }
 
-招商加盟
+
+
+13.招商加盟
+
+url： http://www.earthcenter.com.cm/zhuzai/help/joinin
 
 param：{
 	"companyName": "",  //长度：32个字
@@ -303,9 +323,11 @@ param：{
 }
 
 
-代理人：
+商户订单：
 
-list
+14.订单列表
+
+url： http://www.earthcenter.com.cm/zhuzai/agent/queryOrder
 
 resultdata: [
 	{
@@ -314,11 +336,14 @@ resultdata: [
 		"desc": "",
 		"orderStatus": "",  //2-已支付：3-已接单/到货；
 		"totalPrice": "" 
+		"url": "" 
 	}
 	//...
 ]
 
-处理订单
+15.处理订单
+
+url： http://www.earthcenter.com.cm/zhuzai/agent/manageOrder
 
 param: {
 	"code": "",
@@ -328,7 +353,9 @@ param: {
 resultdata: []
 
 
-detail 
+16.订单明细
+
+url： http://www.earthcenter.com.cm/zhuzai/agent/queryOrderDetail
 
 param: {
 	"code": ""
@@ -341,6 +368,8 @@ resultdata: {
 			"url": "", //string
 			"name": "", //string
 			"price": "", //string
+			"type": "", //string 种类	新增
+			"source": "", //string 来源	新增
 			"number": ""
 		}
 		//...
@@ -350,47 +379,55 @@ resultdata: {
 	"remark": "",
 	"orderStatus": "",
 	"type": "",
-	"送货地址": ""
+	"address": ""
+	"name": "",
+	"phone": ""
 }
 
 
 
+商户产品：
+
+17.商品查询
+
+url： http://www.earthcenter.com.cm/zhuzai/agent/queryProduct
+
+param: {
+	"keyword": "", //搜索关键字 string
+	"page": "", //number 从1开始
+}
 
 
+resultdata: {
+	"list": [
+		{
+			"code": "", //string
+			"url": "", //string
+			"name": "", //string
+			"status": "", //string 1上架0下架
+			"inPrice": "", //string
+			"price": "", //string
+			"source": "", //string
+			"type": "", //string 
+			"barcode": "", //string 条形码
+			"number": ""
+		}
+		//...
+	]
+}
 
 
+18.修改产品
+
+url： http://www.earthcenter.com.cm/zhuzai/agent/editProduct
+
+param: {
+	"code": "", //string
+	"status": "", //string 1上架0下架
+	"price": "", //string 
+	"number": ""
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+resultdata: {
+}

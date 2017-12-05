@@ -5,6 +5,7 @@ import Home from '@/views/Home';
 import index from '@/views/index/index';
 import community from '@/views/index/community';
 import detail from '@/views/index/detail';
+import searchList from '@/views/index/searchList';
 
 //分类
 import classify from '@/views/classify/classify';
@@ -18,8 +19,17 @@ import order from '@/views/shoppingCart/order';
 import my from '@/views/my/my';
 import myOrder from '@/views/my/myOrder';
 
+//管理
+import changeOrder from '@/views/manage/changeOrder';
+
 
 const routes = [
+	{
+		path: '/changeProduct',
+		name: '商品管理',
+		component: changeOrder,
+		hidden: true
+	},
 	{
 		path: '/community',
 		name: '选择小区',
@@ -34,6 +44,7 @@ const routes = [
 		children: [
 			{ path: '/index', component: index, name: '首页', meta: { selected: '首页' } },
 			{ path: '/detail/:id', component: detail, name: '详情', meta: { selected: '首页' } },
+			{ path: '/searchList', component: searchList, name: '搜索商品', meta: { selected: '首页' } },
 		]
 	},
 	{

@@ -6,30 +6,32 @@
     		<div class="base-info">总价：<span>{{item.totlePrice}}元</span></div>
     		<div class="base-info">备注：{{item.remark}}</div>
     		<div class="base-info">配送方式：{{item.type}}</div>
-    		<div class="base-info" v-if="!!item.sendAddress">取货地址：{{item.sendAddress}}</div>
+    		<div class="base-info" v-if="!!item.sendAddress">送货地址：{{item.sendAddress}}</div>
+    		<div class="base-info" v-if="!!item.marketAddress">取货地址：{{item.marketAddress}}</div>
 	        <ul>
 				<li v-for="(list, index) in item.list" :key="index">
 					<img :src="list.url">
 	                <div class="info">
-	                    <p>{{list.name}}</p>
-	                    <p>{{list.price}}元</p>
+	                    <p>名称：{{list.name}}</p>
+	                    <p>价格：{{list.price}}元</p>
+	                    <p>数量：{{list.number}}</p>
 	                </div>
 				</li>
 	        </ul>
 	        <div class="handler">
 	        	<button v-if="item.payStatus==1" @click="payOrder(item.orderCode)">去支付</button>
-	        	<button v-else-if="item.payStatus==2" class="cantDo">接单中</button>
-	        	<button v-else-if="item.payStatus==3" class="cantDo">已接单</button>
+	        	<button v-else-if="item.payStatus==2" class="cantDo">已支付</button>
+	        	<button v-else-if="item.payStatus==3" class="cantDo">已到货</button>
 	        	<button v-else-if="item.payStatus==4" @click="affirmOrder(item.orderCode)">确认送达</button>
 	        	<button v-else-if="item.payStatus==5" class="cantDo">完成</button>
-	        	<button @click="deleteOrder(item.orderCode)">删除</button>
+	        	<button v-if="item.payStatus==1" @click="deleteOrder(item.orderCode)">删除</button>
 	        </div>
     	</div>
     </div>
 </template>
 
 <script>
-    import { getMyOrder, handlerOrder } from '../../api/api';
+    import { getMyOrder, handlerOrder, pay } from '../../api/api';
 	import { Cell } from 'vux';
 
 	export default {
@@ -38,7 +40,8 @@
 	    },
 	    data() {
 	        return {
-	            resultData: []
+	            resultData: [],
+	            wxObj: {}
 	        }
 	    },
 	    created() {
@@ -91,7 +94,7 @@
 	    		pay(para)
             	.then(res => {
             		if (res.resultcode == 0) {
-                        let wxObj = res.resultdata;
+                        this.wxObj = res.resultdata;
 						if (typeof WeixinJSBridge == "undefined"){
 						    if( document.addEventListener ){
 						        document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady, false);
@@ -100,7 +103,7 @@
 						        document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady);
 						    }
 						}else{
-						    this.onBridgeReady(wxObj);
+						    this.onBridgeReady(this.wxObj);
 						}
 
                     } else {
@@ -112,7 +115,7 @@
 	    	},
             onBridgeReady() {
             	WeixinJSBridge.invoke(
-			        'getBrandWCPayRequest', wxObj,
+			        'getBrandWCPayRequest', this.wxObj,
 			       	function(res){     
 						if(res.err_msg == "get_brand_wcpay_request:ok" ) {
 							this.$vux.alert.show({

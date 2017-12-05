@@ -3,6 +3,7 @@
         <flexbox-item :span="3" class="filter">
             <div v-for="item in firstClassify" 
                 @click="handleFirstClassify(item.code)"
+                :class="isActive(item.code)"
                 :key="item.code" class="firstClassify">{{item.name}}</div>
         </flexbox-item>
         <flexbox-item class="classifyLeft">
@@ -29,8 +30,11 @@ export default {
     data() {
         return {
             firstClassify: [],
-            secondClassify: []
+            secondClassify: [],
+            selectCode: ''
         }
+    },
+    computed: {
     },
     created() {
         //分类
@@ -39,15 +43,10 @@ export default {
             if (res.resultcode == 0) {
                 this.firstClassify = res.resultdata;
                 this.secondClassify = res.resultdata[0].detail;
+                this.selectCode = res.resultdata[0].code;
             } else {
                 this.$vux.alert.show({
                     content: res.resultmsg,
-                    onShow () {
-                        console.log('Plugin: I\'m showing')
-                    },
-                    onHide () {
-                        console.log('Plugin: I\'m hiding')
-                    }
                 });
             }
         })
@@ -56,11 +55,20 @@ export default {
         });
     },
     methods: {
+        isActive(code) {
+            console.log(code)
+            if (code == this.selectCode) {
+                return {
+                    active: true
+                }
+            }
+        },
         handleFirstClassify(code) {
             let childArr = [];
             childArr = this.firstClassify.filter((item) => {
                 return item.code == code;
             });
+            this.selectCode = code;
             this.secondClassify = childArr[0].detail;
         },
         handleSecondClassify(code) {
@@ -83,6 +91,9 @@ export default {
                 line-height: 35px;
                 border-bottom: 1px solid #f0f0f0;/*no*/
                 font-size: 14px;
+            }
+            .active{
+                border-bottom: 1px solid #08bb07;
             }
         }
         .secondClassify{

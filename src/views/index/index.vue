@@ -2,13 +2,6 @@
 <template>
     <div class="index">
         <!-- 搜索 -->
-        <!-- <mt-search
-            :value="keyword"
-            @submit="search"
-            
-            cancel-text="取消"
-            placeholder="搜索">
-        </mt-search> -->
         <search
             v-model="searchkeyword"
             position="static"
@@ -84,8 +77,11 @@
             onItemClick (code) {
                 this.classifyCode = code;
             },
-            onSubmit(a) {
-                alert(a)
+            onSubmit(value) {
+                this.$router.push({path: '/searchList', query: {keyword: value}});
+                // this.classifyCode = '';
+                // this.keyword = value;
+                // alert(this.keyword)
             }
         }
     }
