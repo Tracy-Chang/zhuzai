@@ -249,6 +249,77 @@ Mock.mock(/\/agent\/queryProduct/,
 	}
 );
 
+//商户订单列表
+Mock.mock(/\/agent\/queryOrder$/,
+	{
+		"resultcode":0, //1成功 0失败
+		"resultdata|0-20": [
+				{
+					"desc": "xxx",
+					"orderStatus|2-4": 2,  //2-已支付：3-已接单/到货；
+					"totalPrice": "100" ,
+					"time": Mock.mock('@datetime("yyyy/MM/dd HH:mm")'),
+					"orderCode|+1": 111,
+				}
+			],
+		"resultcode": "0",
+		"resultmsg": "查询成功"
+	}
+);
+//商户历史订单列表
+Mock.mock(/\/agent\/queryHisOrder/,
+	{
+		"resultcode":0, //1成功 0失败
+		"resultdata|0-20": [
+				{
+					"desc": "xxx",
+					"orderStatus": 2,  //2-已支付：3-已接单/到货；
+					"totalPrice": "100" ,
+					"time": Mock.mock('@datetime("yyyy/MM/dd HH:mm")'),
+					"orderCode": "111",
+					"orderStatus|4-6": 4
+				}
+			],
+		"resultcode": "0",
+		"resultmsg": "查询成功"
+	}
+);
+
+//商户订单列表操作
+Mock.mock(/\/agent\/manageOrder/,
+	{
+		"resultcode":0, //1成功 0失败
+		"result": [],
+		"resultmsg":"获取成功"
+	}
+);
+
+//商户订单详情
+Mock.mock(/\/agent\/queryOrderDetail/,
+	{
+		"resultcode": 0, //1成功 0失败
+		"resultdata": {
+			"formId": "111",
+			"time": "2017/05/20 12:20", //订单时间
+			"list|1-3": [  //订单物品list
+				{
+					"url": 'xxx',
+					"name|3-5": '可口可乐',
+					"price": '1.80',
+					"number": '3'
+				}
+			],
+			"totalPrice": 30,
+			"name": "翠西",
+			"phone": "10086",
+			"address": "新龙城",
+			"remark|20": "备注",
+			"type": "xxx"
+		},
+		"resultmsg":"获取成功"
+	}
+);
+
 export default Mock;
 
 

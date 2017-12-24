@@ -20,16 +20,14 @@ import my from '@/views/my/my';
 import myOrder from '@/views/my/myOrder';
 
 //管理
+import managerMain from '@/views/manage/my';
 import changeOrder from '@/views/manage/changeOrder';
+import managerHistoryOrder from '@/views/manage/historyOrder';
+import managerMyOrder from '@/views/manage/myOrder';
+import managerOrderDetail from '@/views/manage/orderDetail';
 
 
 const routes = [
-	{
-		path: '/changeProduct',
-		name: '商品管理',
-		component: changeOrder,
-		hidden: true
-	},
 	{
 		path: '/community',
 		name: '选择小区',
@@ -76,7 +74,37 @@ const routes = [
 			{ path: '/my', component: my, name: '我的', meta: { selected: '我的' } },
 			{ path: '/myOrder', component: myOrder, name: '我的订单', meta: { selected: '我的' } },
 		]
-	}
+	},
+	{
+		path: '/changeProduct',
+		name: '商品管理',
+		component: changeOrder,
+		hidden: true
+	},
+	{
+		path: '/managerMain',
+		name: '商家主页',
+		component: managerMain,
+		hidden: true
+	},
+	{
+		path: '/managerHistoryOrder',
+		name: '历史订单',
+		component: managerHistoryOrder,
+		hidden: true
+	},
+	{
+		path: '/managerMyOrder',
+		name: '我的订单',
+		component: managerMyOrder,
+		hidden: true
+	},
+	{
+		path: '/managerOrderDetail/:id',
+		name: '订单详情',
+		component: managerOrderDetail,
+		hidden: true
+	},
 ]
 export default routes
 

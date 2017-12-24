@@ -1,9 +1,17 @@
 import axios from 'axios';
 import qs from 'qs';
+import util from '../util/util';
 axios.defaults.withCredentials = true;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-var base = '' + '/zhuzai';
+var base = '';
+
+if (util.getQueryByName('type') == 1) {
+	base += '/zhuzai';
+} else if (util.getQueryByName('type') == 2) {
+	base += '/zhuzai2';
+}
+
 //var base = 'http://www.earthcenter.com.cn/test';
 //var base = '';
 
@@ -46,6 +54,14 @@ export const handlerOrder = params => { return axios.post(`${base}/order/manage`
 export const getProductList = params => { return axios.post(`${base}/agent/queryProduct`, qs.stringify(params)).then(res => res.data); };
 //修改商品
 export const editProduct = params => { return axios.post(`${base}/agent/editProduct`, qs.stringify(params)).then(res => res.data); };
+//订单列表
+export const queryOrder = params => { return axios.post(`${base}/agent/queryOrder`, qs.stringify(params)).then(res => res.data); };
+//操作订单列表
+export const manageOrder = params => { return axios.post(`${base}/agent/manageOrder`, qs.stringify(params)).then(res => res.data); };
+//历史订单列表
+export const queryHistoryOrder = params => { return axios.post(`${base}/agent/queryHisOrder`, qs.stringify(params)).then(res => res.data); };
+//订单详情
+export const queryOrderDetail = params => { return axios.post(`${base}/agent/queryOrderDetail`, qs.stringify(params)).then(res => res.data); };
 
 
 
